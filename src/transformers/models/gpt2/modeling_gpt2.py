@@ -666,6 +666,8 @@ DEPARALLELIZE_DOCSTRING = r"""
     "The bare GPT2 Model transformer outputting raw hidden-states without any specific head on top.",
     GPT2_START_DOCSTRING,
 )
+
+
 class GPT2Model(GPT2PreTrainedModel):
     _keys_to_ignore_on_load_missing = ["attn.masked_bias"]
 
@@ -673,7 +675,6 @@ class GPT2Model(GPT2PreTrainedModel):
         super().__init__(config)
 
         self.embed_dim = config.hidden_size
-
         self.wte = nn.Embedding(config.vocab_size, self.embed_dim)
         self.wpe = nn.Embedding(config.max_position_embeddings, self.embed_dim)
 
@@ -783,15 +784,16 @@ class GPT2Model(GPT2PreTrainedModel):
             batch_size = input_ids.shape[0]
         elif inputs_embeds is not None:
             input_shape = inputs_embeds.size()[:-1]
+            print(input_shape)
             batch_size = inputs_embeds.shape[0]
         else:
             raise ValueError("You have to specify either input_ids or inputs_embeds")
 
         device = input_ids.device if input_ids is not None else inputs_embeds.device
-
         if token_type_ids is not None:
             token_type_ids = token_type_ids.view(-1, input_shape[-1])
         if position_ids is not None:
+            pppp
             position_ids = position_ids.view(-1, input_shape[-1])
 
         if past_key_values is None:
